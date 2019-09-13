@@ -39,8 +39,9 @@ public class ClayToolbarViewStateFactoryImpl implements ClayToolbarViewStateFact
 	private SearchContainerURLFactory _searchContainerURLFactory;
 
 	@Override
-	public ClayToolbarViewState create(String addEntryMessage, RenderRequest renderRequest,
-		RenderResponse renderResponse, boolean showCreationMenu) {
+	public ClayToolbarViewState create(String addEntryMessage, String defaultDisplayStyle, String defaultOrderByCol,
+		String defaultOrderByType, RenderRequest renderRequest, RenderResponse renderResponse,
+		boolean showCreationMenu) {
 
 		RenderParameters renderParameters = renderRequest.getRenderParameters();
 
@@ -50,11 +51,11 @@ public class ClayToolbarViewStateFactoryImpl implements ClayToolbarViewStateFact
 		int delta = GetterUtil.getInteger(renderParameters.getValue(SearchContainer.DEFAULT_DELTA_PARAM),
 				SearchContainer.DEFAULT_DELTA);
 
-		String displayStyle = GetterUtil.getString(renderParameters.getValue("displayStyle"), "list");
+		String displayStyle = GetterUtil.getString(renderParameters.getValue("displayStyle"), defaultDisplayStyle);
 
-		String orderByCol = GetterUtil.getString(renderParameters.getValue("orderByCol"), "title");
+		String orderByCol = GetterUtil.getString(renderParameters.getValue("orderByCol"), defaultOrderByCol);
 
-		String orderByType = GetterUtil.getString(renderParameters.getValue("orderByType"), "asc");
+		String orderByType = GetterUtil.getString(renderParameters.getValue("orderByType"), defaultOrderByType);
 
 		boolean resetCur = GetterUtil.getBoolean(renderParameters.getValue("resetCur"));
 

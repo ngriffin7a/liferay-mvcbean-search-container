@@ -13,12 +13,13 @@
  */
 package com.liferay.portlet.view.state.internal;
 
+import javax.portlet.RenderParameters;
 import javax.portlet.RenderRequest;
 
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 
 import com.liferay.portlet.view.state.SearchContainerViewState;
 import com.liferay.portlet.view.state.SearchContainerViewStateFactory;
@@ -31,23 +32,40 @@ import com.liferay.portlet.view.state.SearchContainerViewStateFactory;
 public class SearchContainerViewStateFactoryImpl implements SearchContainerViewStateFactory {
 
 	@Override
-	public SearchContainerViewState create(String orderByColDefault, String orderByTypeDefault,
-		RenderRequest renderRequest) {
+	public SearchContainerViewState create(String defaultDisplayStyle, String defaultOrderByCol,
+		String defaultOrderByType, RenderRequest renderRequest, String[] validOrderByCols) {
 
-		int delta = ParamUtil.getInteger(renderRequest, SearchContainer.DEFAULT_DELTA_PARAM,
+		RenderParameters renderParameters = renderRequest.getRenderParameters();
+		int delta = GetterUtil.getInteger(renderParameters.getValue(SearchContainer.DEFAULT_DELTA_PARAM),
 				SearchContainer.DEFAULT_DELTA);
-		int currentPage = ParamUtil.getInteger(renderRequest, SearchContainer.DEFAULT_CUR_PARAM,
+		int currentPage = GetterUtil.getInteger(renderParameters.getValue(SearchContainer.DEFAULT_CUR_PARAM),
 				SearchContainer.DEFAULT_CUR);
 		int start = ((currentPage > 0) ? (currentPage - 1) : 0) * delta;
 		int end = start + delta;
 
-		return create(ParamUtil.getInteger(renderRequest, "cur", SearchContainer.DEFAULT_CUR),
-				ParamUtil.getInteger(renderRequest, "delta", SearchContainer.DEFAULT_DELTA),
-				ParamUtil.getString(renderRequest, "displayStyle", "list"), end,
-				ParamUtil.getString(renderRequest, "keywords"),
-				ParamUtil.getString(renderRequest, "orderByCol", orderByColDefault),
-				ParamUtil.getString(renderRequest, "orderByType", orderByTypeDefault),
-				ParamUtil.getBoolean(renderRequest, "resetCur"), start);
+		boolean valid = false;
+
+		String orderByCol = GetterUtil.getString(renderParameters.getValue("orderByCol"));
+
+		for (String validOrderByCol : validOrderByCols) {
+
+			if (validOrderByCol.equals(orderByCol)) {
+				valid = true;
+
+				break;
+			}
+		}
+
+		if (!valid) {
+			orderByCol = defaultOrderByCol;
+		}
+
+		return create(GetterUtil.getInteger(renderParameters.getValue("cur"), SearchContainer.DEFAULT_CUR),
+				GetterUtil.getInteger(renderParameters.getValue("delta"), SearchContainer.DEFAULT_DELTA),
+				GetterUtil.getString(renderParameters.getValue("displayStyle"), defaultDisplayStyle), end,
+				GetterUtil.getString(renderParameters.getValue("keywords")), orderByCol,
+				GetterUtil.getString(renderParameters.getValue("orderByType"), defaultOrderByType),
+				GetterUtil.getBoolean(renderParameters.getValue("resetCur")), start);
 	}
 
 	@Override

@@ -21,8 +21,8 @@ import javax.portlet.RenderRequest;
  */
 public interface SearchContainerViewStateFactory {
 
-	public SearchContainerViewState create(String orderByColDefault, String orderByTypeDefault,
-		RenderRequest renderRequest);
+	public SearchContainerViewState create(String defaultDisplayStyle, String defaultOrderByCol,
+		String defaultOrderByType, RenderRequest renderRequest, String[] validOrderByCols);
 
 	public SearchContainerViewState create(int cur, int delta, String displayStyle, int end, String keywords,
 		String orderByCol, String orderByType, boolean resetCur, int start);

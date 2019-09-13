@@ -23,8 +23,9 @@ import javax.portlet.RenderURL;
  */
 public interface ClayToolbarViewStateFactory {
 
-	public ClayToolbarViewState create(String addEntryMessage, RenderRequest renderRequest,
-		RenderResponse renderResponse, boolean showCreationMenu);
+	public ClayToolbarViewState create(String addEntryMessage, String defaultDisplayStyle, String defaultOrderByCol,
+		String defaultOrderByType, RenderRequest renderRequest, RenderResponse renderResponse,
+		boolean showCreationMenu);
 
 	public ClayToolbarViewState create(String addEntryMessage, RenderURL addEntryURL, String displayStyle,
 		RenderURL displayStyleURL, RenderURL searchURL, boolean showCreationMenu, String sortingOrder,
