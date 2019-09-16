@@ -24,10 +24,17 @@ import javax.portlet.RenderURL;
 public interface ClayToolbarViewStateFactory {
 
 	public ClayToolbarViewState create(String addEntryMessage, String defaultDisplayStyle, String defaultOrderByCol,
-		String defaultOrderByType, RenderRequest renderRequest, RenderResponse renderResponse,
-		boolean showCreationMenu);
+		String defaultOrderByType, RenderRequest renderRequest, RenderResponse renderResponse, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList, boolean showDisplayStyleTable);
 
-	public ClayToolbarViewState create(String addEntryMessage, RenderURL addEntryURL, String displayStyle,
-		RenderURL displayStyleURL, RenderURL searchURL, boolean showCreationMenu, String sortingOrder,
+	public ClayToolbarViewState create(String addEntryMessage, String defaultDisplayStyle, String defaultOrderByCol,
+		String defaultOrderByType, RenderRequest renderRequest, RenderResponse renderResponse, String searchFormMethod,
+		String searchFormName, String searchInputName, String searchValue, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList, boolean showDisplayStyleTable);
+
+	public ClayToolbarViewState create(String addEntryMessage, RenderURL addEntryURL, RenderURL clearResultsURL,
+		String displayStyle, RenderURL displayStyleURL, String searchFormMethod, String searchFormName,
+		String searchInputName, RenderURL searchURL, String searchValue, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList, boolean showDisplayStyleTable, String sortingOrder,
 		RenderURL sortingURLCurrent, RenderURL sortingURLReverse);
 }

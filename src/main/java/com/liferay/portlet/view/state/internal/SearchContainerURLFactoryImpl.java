@@ -21,6 +21,8 @@ import javax.portlet.RenderURL;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.portal.kernel.util.Validator;
+
 import com.liferay.portlet.view.state.SearchContainerURLFactory;
 
 
@@ -32,7 +34,7 @@ public class SearchContainerURLFactoryImpl implements SearchContainerURLFactory 
 
 	@Override
 	public RenderURL create(Type type, Supplier<RenderURL> renderURLSupplier, int cur, int delta, String displayStyle,
-		String orderByCol, String orderByType, boolean resetCur) {
+		String keywords, String orderByCol, String orderByType, boolean resetCur) {
 
 		RenderURL renderURL = renderURLSupplier.get();
 
@@ -41,6 +43,11 @@ public class SearchContainerURLFactoryImpl implements SearchContainerURLFactory 
 		renderParameters.setValue("cur", String.valueOf(cur));
 		renderParameters.setValue("delta", String.valueOf(delta));
 		renderParameters.setValue("displayStyle", displayStyle);
+
+		if (!Type.CLEAR_RESULTS.equals(type) && Validator.isNotNull(keywords)) {
+			renderParameters.setValue("keywords", keywords);
+		}
+
 		renderParameters.setValue("orderByCol", orderByCol);
 
 		if (type == Type.REVERSE_SORT) {

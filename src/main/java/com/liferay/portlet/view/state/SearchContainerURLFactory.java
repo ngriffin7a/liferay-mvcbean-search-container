@@ -27,9 +27,9 @@ public interface SearchContainerURLFactory {
 	 * @author  Neil Griffin
 	 */
 	public enum Type {
-		ADD_ENTRY, CURRENT_SORT, DISPLAY_STYLE, REVERSE_SORT, SEARCH
+		ADD_ENTRY, CLEAR_RESULTS, CURRENT_SORT, DISPLAY_STYLE, REVERSE_SORT, SEARCH
 	}
 
 	public RenderURL create(Type type, Supplier<RenderURL> renderURLSupplier, int cur, int delta, String displayStyle,
-		String orderByCol, String orderByType, boolean resetCur);
+		String keywords, String orderByCol, String orderByType, boolean resetCur);
 }

@@ -40,8 +40,18 @@ public class ClayToolbarViewStateFactoryImpl implements ClayToolbarViewStateFact
 
 	@Override
 	public ClayToolbarViewState create(String addEntryMessage, String defaultDisplayStyle, String defaultOrderByCol,
-		String defaultOrderByType, RenderRequest renderRequest, RenderResponse renderResponse,
-		boolean showCreationMenu) {
+		String defaultOrderByType, RenderRequest renderRequest, RenderResponse renderResponse, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList, boolean showDisplayStyleTable) {
+		return create(addEntryMessage, defaultDisplayStyle, defaultOrderByCol, defaultOrderByType, renderRequest,
+				renderResponse, null, null, null, null, showCreationMenu, showDisplayStyleCard, showDisplayStyleList,
+				showDisplayStyleTable);
+	}
+
+	@Override
+	public ClayToolbarViewState create(String addEntryMessage, String defaultDisplayStyle, String defaultOrderByCol,
+		String defaultOrderByType, RenderRequest renderRequest, RenderResponse renderResponse, String searchFormMethod,
+		String searchFormName, String searchInputName, String searchValue, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList, boolean showDisplayStyleTable) {
 
 		RenderParameters renderParameters = renderRequest.getRenderParameters();
 
@@ -53,6 +63,8 @@ public class ClayToolbarViewStateFactoryImpl implements ClayToolbarViewStateFact
 
 		String displayStyle = GetterUtil.getString(renderParameters.getValue("displayStyle"), defaultDisplayStyle);
 
+		String keywords = renderParameters.getValue("keywords");
+
 		String orderByCol = GetterUtil.getString(renderParameters.getValue("orderByCol"), defaultOrderByCol);
 
 		String orderByType = GetterUtil.getString(renderParameters.getValue("orderByType"), defaultOrderByType);
@@ -61,24 +73,35 @@ public class ClayToolbarViewStateFactoryImpl implements ClayToolbarViewStateFact
 
 		return create(addEntryMessage,
 				_searchContainerURLFactory.create(SearchContainerURLFactory.Type.ADD_ENTRY,
-					renderResponse::createRenderURL, cur, delta, displayStyle, orderByCol, orderByType, resetCur),
-				displayStyle,
+					renderResponse::createRenderURL, cur, delta, displayStyle, keywords, orderByCol, orderByType,
+					resetCur),
+				_searchContainerURLFactory.create(SearchContainerURLFactory.Type.CLEAR_RESULTS,
+					renderResponse::createRenderURL, cur, delta, displayStyle, keywords, orderByCol, orderByType,
+					resetCur), displayStyle,
 				_searchContainerURLFactory.create(SearchContainerURLFactory.Type.DISPLAY_STYLE,
-					renderResponse::createRenderURL, cur, delta, displayStyle, orderByCol, orderByType, resetCur),
+					renderResponse::createRenderURL, cur, delta, displayStyle, keywords, orderByCol, orderByType,
+					resetCur), searchFormMethod, searchFormName, searchInputName,
 				_searchContainerURLFactory.create(SearchContainerURLFactory.Type.SEARCH,
-					renderResponse::createRenderURL, cur, delta, displayStyle, orderByCol, orderByType, resetCur),
-				showCreationMenu, orderByType,
+					renderResponse::createRenderURL, cur, delta, displayStyle, keywords, orderByCol, orderByType,
+					resetCur), searchValue, showCreationMenu, showDisplayStyleCard, showDisplayStyleList,
+				showDisplayStyleTable, orderByType,
 				_searchContainerURLFactory.create(SearchContainerURLFactory.Type.CURRENT_SORT,
-					renderResponse::createRenderURL, cur, delta, displayStyle, orderByCol, orderByType, resetCur),
+					renderResponse::createRenderURL, cur, delta, displayStyle, keywords, orderByCol, orderByType,
+					resetCur),
 				_searchContainerURLFactory.create(SearchContainerURLFactory.Type.REVERSE_SORT,
-					renderResponse::createRenderURL, cur, delta, displayStyle, orderByCol, orderByType, resetCur));
+					renderResponse::createRenderURL, cur, delta, displayStyle, keywords, orderByCol, orderByType,
+					resetCur));
 	}
 
 	@Override
-	public ClayToolbarViewState create(String addEntryMessage, RenderURL addEntryURL, String displayStyle,
-		RenderURL displayStyleURL, RenderURL searchURL, boolean showCreationMenu, String sortingOrder,
+	public ClayToolbarViewState create(String addEntryMessage, RenderURL addEntryURL, RenderURL clearResultsURL,
+		String displayStyle, RenderURL displayStyleURL, String searchFormMethod, String searchFormName,
+		String searchInputName, RenderURL searchURL, String searchValue, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList, boolean showDisplayStyleTable, String sortingOrder,
 		RenderURL sortingURLCurrent, RenderURL sortingURLReverse) {
-		return new ClayToolbarViewStateImpl(addEntryMessage, addEntryURL, displayStyle, displayStyleURL, searchURL,
-				showCreationMenu, sortingOrder, sortingURLCurrent, sortingURLReverse);
+		return new ClayToolbarViewStateImpl(addEntryMessage, addEntryURL, clearResultsURL, displayStyle,
+				displayStyleURL, searchFormMethod, searchFormName, searchInputName, searchURL, searchValue,
+				showCreationMenu, showDisplayStyleCard, showDisplayStyleList, showDisplayStyleTable, sortingOrder,
+				sortingURLCurrent, sortingURLReverse);
 	}
 }

@@ -31,26 +31,44 @@ public class ClayToolbarViewStateImpl implements ClayToolbarViewState {
 
 	private String _addEntryMessage;
 	private RenderURL _addEntryURL;
+	private RenderURL _clearResultsURL;
 	private CreationMenu _creationMenu;
 	private String _displayStyle;
 	private RenderURL _displayStyleURL;
+	private String _searchFormMethod;
+	private String _searchFormName;
+	private String _searchInputName;
 	private RenderURL _searchURL;
+	private String _searchValue;
 	private boolean _showCreationMenu;
+	private boolean _showDisplayStyleCard;
+	private boolean _showDisplayStyleList;
+	private boolean _showDisplayStyleTable;
 	private String _sortingOrder;
 	private RenderURL _sortingURLCurrent;
 	private RenderURL _sortingURLReverse;
 	private ViewTypeItemList _viewTypeItems;
 
-	public ClayToolbarViewStateImpl(String addEntryMessage, RenderURL addEntryURL, String displayStyle,
-		RenderURL displayStyleURL, RenderURL searchURL, boolean showCreationMenu, String sortingOrder,
+	public ClayToolbarViewStateImpl(String addEntryMessage, RenderURL addEntryURL, RenderURL clearResultsURL,
+		String displayStyle, RenderURL displayStyleURL, String searchFormMethod, String searchFormName,
+		String searchInputName, RenderURL searchURL, String searchValue, boolean showCreationMenu,
+		boolean showDisplayStyleCard, boolean showDisplayStyleList, boolean showDisplayStyleTable, String sortingOrder,
 		RenderURL sortingURLCurrent, RenderURL sortingURLReverse) {
 
 		_addEntryMessage = addEntryMessage;
 		_addEntryURL = addEntryURL;
+		_clearResultsURL = clearResultsURL;
 		_displayStyle = displayStyle;
 		_displayStyleURL = displayStyleURL;
+		_searchFormMethod = searchFormMethod;
+		_searchFormName = searchFormName;
+		_searchInputName = searchInputName;
 		_searchURL = searchURL;
+		_searchValue = searchValue;
 		_showCreationMenu = showCreationMenu;
+		_showDisplayStyleCard = showDisplayStyleCard;
+		_showDisplayStyleList = showDisplayStyleList;
+		_showDisplayStyleTable = showDisplayStyleTable;
 		_sortingOrder = sortingOrder;
 		_sortingURLCurrent = sortingURLCurrent;
 		_sortingURLReverse = sortingURLReverse;
@@ -68,7 +86,7 @@ public class ClayToolbarViewStateImpl implements ClayToolbarViewState {
 
 	@Override
 	public String getClearResultsURL() {
-		return _searchURL.toString();
+		return _clearResultsURL.toString();
 	}
 
 	@Override
@@ -102,13 +120,43 @@ public class ClayToolbarViewStateImpl implements ClayToolbarViewState {
 	}
 
 	@Override
+	public String getSearchFormMethod() {
+
+		if (_searchFormMethod == null) {
+			_searchFormMethod = ClayToolbarViewState.super.getSearchFormMethod();
+		}
+
+		return _searchFormMethod;
+	}
+
+	@Override
 	public String getSearchFormName() {
-		return "search";
+
+		if (_searchFormName == null) {
+			_searchFormName = ClayToolbarViewState.super.getSearchFormName();
+		}
+
+		return _searchFormName;
+	}
+
+	@Override
+	public String getSearchInputName() {
+
+		if (_searchInputName == null) {
+			_searchInputName = ClayToolbarViewState.super.getSearchInputName();
+		}
+
+		return _searchInputName;
 	}
 
 	@Override
 	public RenderURL getSearchURL() {
 		return _searchURL;
+	}
+
+	@Override
+	public String getSearchValue() {
+		return _searchValue;
 	}
 
 	@Override
@@ -160,16 +208,16 @@ public class ClayToolbarViewStateImpl implements ClayToolbarViewState {
 
 	@Override
 	public boolean isShowDisplayStyleCard() {
-		return true;
+		return _showDisplayStyleCard;
 	}
 
 	@Override
 	public boolean isShowDisplayStyleList() {
-		return true;
+		return _showDisplayStyleList;
 	}
 
 	@Override
 	public boolean isShowDisplayStyleTable() {
-		return true;
+		return _showDisplayStyleTable;
 	}
 }
