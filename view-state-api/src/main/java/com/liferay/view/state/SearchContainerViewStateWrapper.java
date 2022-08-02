@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2019 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -11,65 +11,73 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-package com.liferay.portlet.view.state;
+
+package com.liferay.view.state;
+
+import org.osgi.annotation.versioning.ConsumerType;
 
 /**
- * @author  Neil Griffin
+ * @author Neil Griffin
  */
-public class SearchContainerViewStateWrapper implements SearchContainerViewState {
+@ConsumerType
+public abstract class SearchContainerViewStateWrapper
+	implements SearchContainerViewState {
 
-	private SearchContainerViewState _wrapped;
+	public SearchContainerViewStateWrapper(
+		SearchContainerViewState searchContainerViewState) {
 
-	public SearchContainerViewStateWrapper(SearchContainerViewState searchContainerViewState) {
-		_wrapped = searchContainerViewState;
+		_searchContainerViewState = searchContainerViewState;
 	}
 
 	@Override
 	public int getCur() {
-		return _wrapped.getCur();
+		return _searchContainerViewState.getCur();
 	}
 
 	@Override
 	public int getDelta() {
-		return _wrapped.getDelta();
+		return _searchContainerViewState.getDelta();
 	}
 
 	@Override
 	public String getDisplayStyle() {
-		return _wrapped.getDisplayStyle();
+		return _searchContainerViewState.getDisplayStyle();
 	}
 
 	@Override
 	public int getEnd() {
-		return _wrapped.getEnd();
+		return _searchContainerViewState.getEnd();
 	}
 
 	@Override
 	public String getKeywords() {
-		return _wrapped.getKeywords();
+		return _searchContainerViewState.getKeywords();
 	}
 
 	@Override
 	public String getOrderByCol() {
-		return _wrapped.getOrderByCol();
+		return _searchContainerViewState.getOrderByCol();
 	}
 
 	@Override
 	public String getOrderByType() {
-		return _wrapped.getOrderByType();
+		return _searchContainerViewState.getOrderByType();
 	}
 
 	@Override
 	public boolean getResetCur() {
-		return _wrapped.getResetCur();
+		return _searchContainerViewState.getResetCur();
 	}
 
 	@Override
 	public int getStart() {
-		return _wrapped.getStart();
+		return _searchContainerViewState.getStart();
 	}
 
 	public SearchContainerViewState getWrapped() {
-		return _wrapped;
+		return _searchContainerViewState;
 	}
+
+	private final SearchContainerViewState _searchContainerViewState;
+
 }

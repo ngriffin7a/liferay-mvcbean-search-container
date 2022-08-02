@@ -8,11 +8,12 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.liferay</groupId>
-	<artifactId>com.liferay.portlet.view.state</artifactId>
+	<groupId>com.liferay.view.state</groupId>
+	<artifactId>com.liferay.view.state.parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>Liferay Portlet View State</name>
-	<description>Liferay Portlet View State</description>
+	<name>Liferay View State Parent</name>
+	<description>Liferay View State Parent</description>
+	<packaging>pom</packaging>
 
 	<organization>
 		<name>Liferay, Inc</name>
@@ -42,9 +43,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:https://github.com/liferay/liferay-portlet-view-state</connection>
-		<developerConnection>scm:git:https://github.com/liferay/liferay-portlet-view-state</developerConnection>
-		<url>scm:git:https://github.com/liferay/liferay-portlet-view-state</url>
+		<connection>scm:git:https://github.com/ngriffin7a/liferay-view-state</connection>
+		<developerConnection>scm:git:https://github.com/ngriffin7a/liferay-view-state</developerConnection>
+		<url>scm:git:https://github.com/ngriffin7a/liferay-view-state</url>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -54,6 +55,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<surefire.version>2.12</surefire.version>
 	</properties>
+
+	<modules>
+		<module>view-state-api</module>
+		<module>view-state-service</module>
+	</modules>
 
 	<build>
 		<pluginManagement>
@@ -83,13 +89,6 @@
 							<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
 							<manifestEntries>
 								<Built-By>Release Manager</Built-By>
-								<Specification-Title>Portlet 3.0 Bridge for JavaServer Faces 2.2</Specification-Title>
-								<Specification-Vendor>Java Community Process (JSR 378)</Specification-Vendor>
-								<Specification-Version>5.0.0</Specification-Version>
-								<Implementation-Title>${project.name}</Implementation-Title>
-								<Implementation-Version>${full.version}</Implementation-Version>
-								<Implementation-Vendor-Id>com.liferay</Implementation-Vendor-Id>
-								<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
 							</manifestEntries>
 						</archive>
 					</configuration>
@@ -160,47 +159,6 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<plugins>
-			<!--
-			<plugin>
-				<groupId>biz.aQute.bnd</groupId>
-				<artifactId>bnd-baseline-maven-plugin</artifactId>
-				<version>${bnd.version}</version>
-				<configuration>
-					<base>
-						<groupId>${project.groupId}</groupId>
-						<artifactId>${project.artifactId}</artifactId>
-						<version>(,4.1.0]</version>
-					</base>
-					<includeDistributionManagement>false</includeDistributionManagement>
-				</configuration>
-				<executions>
-					<execution>
-						<id>baseline</id>
-						<goals>
-							<goal>baseline</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			-->
-			<plugin>
-				<groupId>biz.aQute.bnd</groupId>
-				<artifactId>bnd-maven-plugin</artifactId>
-				<version>${bnd.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>bnd-process</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
 	</build>
 
 	<profiles>
@@ -262,55 +220,55 @@
 		</profile>
 	</profiles>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.liferay</groupId>
-			<artifactId>com.liferay.frontend.taglib.clay</artifactId>
-			<!-- <version>2.2.15</version> For 7.2.10.1 SP1 -->
-							<version>3.0.0</version> <!-- For master -->
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay</groupId>
-			<artifactId>com.liferay.petra.function</artifactId>
-			<version>4.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>com.liferay.portal.kernel</artifactId>
-				<!--<version>4.0.0</version> For 7.2.10.1 SP1 -->
-				<version>7.0.0</version><!-- For master -->
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.portlet</groupId>
-			<artifactId>portlet-api</artifactId>
-			<version>3.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.service.component.annotations</artifactId>
-			<version>1.3.0</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.4.0</version>
-			</plugin>
-		</plugins>
-	</reporting>
+	<dependencyManagement>
+		<dependencies>
+				<!--
+			<dependency>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.frontend.taglib.clay</artifactId>
+				<version>2.2.15</version> For 7.2.10.1 SP1
+				<version>3.0.0</version> For master
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.petra.function</artifactId>
+				<version>4.0.1</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.liferay.portal</groupId>
+				<artifactId>com.liferay.portal.kernel</artifactId>
+				<version>4.0.0</version> For 7.2.10.1 SP1
+				<version>7.0.0</version> For master
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.portlet</groupId>
+				<artifactId>portlet-api</artifactId>
+				<version>3.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.service.component.annotations</artifactId>
+				<version>1.3.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.annotation.versioning</artifactId>
+				<version>1.1.0</version>
+				<scope>provided</scope>
+			</dependency>
+			-->
+			<dependency>
+				<groupId>com.liferay.portal</groupId>
+				<artifactId>release.dxp.api</artifactId>
+				<version>7.4.13.u16</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>

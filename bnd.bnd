@@ -1,6 +1,0 @@
-Bundle-Name: com.liferay.portlet.view.state
-Bundle-SymbolicName: com.liferay.portlet.view.state
-Bundle-Version: 1.0.0
-Export-Package:\
-	com.liferay.portlet.view.state
--check: EXPORTS

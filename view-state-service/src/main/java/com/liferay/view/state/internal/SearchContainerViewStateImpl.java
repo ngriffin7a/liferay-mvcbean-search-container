@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2019 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -11,38 +11,39 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-package com.liferay.portlet.view.state.internal;
 
-import com.liferay.portlet.view.state.SearchContainerViewState;
+package com.liferay.view.state.internal;
 
+
+import com.liferay.view.state.SearchContainerViewState;
 
 /**
  * @author  Neil Griffin
  */
 public class SearchContainerViewStateImpl implements SearchContainerViewState {
 
-	private int _cur;
-	private int _delta;
-	private String _displayStyle;
-	private int _end;
-	private String _keywords;
-	private String _orderByCol;
-	private String _orderByType;
-	private boolean _resetCur;
-	private int _start;
+	public SearchContainerViewStateImpl(
+		long categoryId, int cur, int delta, String displayStyle, int end,
+		String keywords, String navigation, String orderByCol,
+		String orderByType, boolean resetCur, int start, String tag) {
 
-	public SearchContainerViewStateImpl(int cur, int delta, String displayStyle, int end, String keywords,
-		String orderByCol, String orderByType, boolean resetCur, int start) {
-
+		_categoryId = categoryId;
 		_cur = cur;
 		_delta = delta;
 		_displayStyle = displayStyle;
 		_end = end;
 		_keywords = keywords;
+		_navigation = navigation;
 		_orderByCol = orderByCol;
 		_orderByType = orderByType;
 		_resetCur = resetCur;
 		_start = start;
+		_tag = tag;
+	}
+
+	@Override
+	public long getCategoryId() {
+		return _categoryId;
 	}
 
 	@Override
@@ -71,6 +72,11 @@ public class SearchContainerViewStateImpl implements SearchContainerViewState {
 	}
 
 	@Override
+	public String getNavigation() {
+		return _navigation;
+	}
+
+	@Override
 	public String getOrderByCol() {
 		return _orderByCol;
 	}
@@ -89,5 +95,23 @@ public class SearchContainerViewStateImpl implements SearchContainerViewState {
 	public int getStart() {
 		return _start;
 	}
+
+	@Override
+	public String getTag() {
+		return _tag;
+	}
+
+	private final long _categoryId;
+	private final int _cur;
+	private final int _delta;
+	private final String _displayStyle;
+	private final int _end;
+	private final String _keywords;
+	private final String _navigation;
+	private final String _orderByCol;
+	private final String _orderByType;
+	private final boolean _resetCur;
+	private final int _start;
+	private final String _tag;
 
 }

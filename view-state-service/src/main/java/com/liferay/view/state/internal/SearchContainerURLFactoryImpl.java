@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2019 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -11,7 +11,10 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-package com.liferay.portlet.view.state.internal;
+
+package com.liferay.view.state.internal;
+
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -19,27 +22,29 @@ import java.util.function.Supplier;
 import javax.portlet.MutableRenderParameters;
 import javax.portlet.RenderURL;
 
+import com.liferay.view.state.SearchContainerURLFactory;
 import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.util.Validator;
-
-import com.liferay.portlet.view.state.SearchContainerURLFactory;
-
 
 /**
  * @author  Neil Griffin
  */
 @Component(service = SearchContainerURLFactory.class)
-public class SearchContainerURLFactoryImpl implements SearchContainerURLFactory {
+public class SearchContainerURLFactoryImpl
+	implements SearchContainerURLFactory {
 
 	@Override
-	public RenderURL create(Type type, Supplier<RenderURL> renderURLSupplier, int cur, int delta, String displayStyle,
-		String keywords, String orderByCol, String orderByType, boolean resetCur) {
+	public RenderURL create(
+		long categoryId, int cur, int delta, String displayStyle,
+		String keywords, String navigation, String orderByCol,
+		String orderByType, Supplier<RenderURL> renderURLSupplier,
+		boolean resetCur, String tag, Type type) {
 
 		RenderURL renderURL = renderURLSupplier.get();
 
-		MutableRenderParameters renderParameters = renderURL.getRenderParameters();
+		MutableRenderParameters renderParameters =
+			renderURL.getRenderParameters();
 
+		renderParameters.setValue("categoryId", String.valueOf(categoryId));
 		renderParameters.setValue("cur", String.valueOf(cur));
 		renderParameters.setValue("delta", String.valueOf(delta));
 		renderParameters.setValue("displayStyle", displayStyle);
@@ -48,10 +53,13 @@ public class SearchContainerURLFactoryImpl implements SearchContainerURLFactory 
 			renderParameters.setValue("keywords", keywords);
 		}
 
+		renderParameters.setValue("navigation", navigation);
 		renderParameters.setValue("orderByCol", orderByCol);
 
 		if (type == Type.REVERSE_SORT) {
-			renderParameters.setValue("orderByType", Objects.equals(orderByType, "asc") ? "desc" : "asc");
+			renderParameters.setValue(
+				"orderByType",
+				Objects.equals(orderByType, "asc") ? "desc" : "asc");
 		}
 		else {
 			renderParameters.setValue("orderByType", orderByType);
@@ -59,6 +67,11 @@ public class SearchContainerURLFactoryImpl implements SearchContainerURLFactory 
 
 		renderParameters.setValue("resetCur", String.valueOf(resetCur));
 
+		if (Validator.isNotNull(tag)) {
+			renderParameters.setValue("tag", tag);
+		}
+
 		return renderURL;
 	}
+
 }
